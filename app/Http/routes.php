@@ -19,3 +19,39 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+/*
+Route::get('/admin/login', 
+	array(
+//		'as' 		=> 'admin.login',
+		'namespace' => 'Admin',
+		'uses' 		=> 'AuthController@login',
+	)
+);
+*/
+Route::group(
+	array(
+		'prefix' 	 => 'admin',
+		'namespace'  => 'Admin',
+		'middleware' => 'admin.auth',
+	),
+	 function()
+	{
+
+		Route::controller(
+			'auth', 'AuthController', 
+			array(
+				'getLogin'  => 'admin.loginForm',
+				'postLogin' => 'admin.login'
+			)
+		);
+
+		Route::get(
+			'/',
+			array(
+				'as' => 'admin.index', 
+				'uses' => 'IndexController@index'
+			)
+		);
+	}
+); 	
