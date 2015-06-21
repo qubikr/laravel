@@ -46,6 +46,13 @@ Route::group(
 			)
 		);
 
+		Route::resource(
+			'user', 'User\UserController',
+			array(
+				'as' => 'admin.users'
+			)
+		);
+
 		Route::get(
 			'/',
 			array(
