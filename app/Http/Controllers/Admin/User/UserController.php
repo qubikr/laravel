@@ -67,7 +67,7 @@ class UserController extends Controller {
 	public function show($id)
 	{
 		//
-		echo 'show';
+
 
 	}
 
@@ -80,8 +80,7 @@ class UserController extends Controller {
 	public function edit($id)
 	{
 		//
-		echo 'edit';
-		return 'edit';
+
 	}
 
 	/**
@@ -104,8 +103,10 @@ class UserController extends Controller {
 	public function destroy($id)
 	{
 		//
-		echo 'Destroy!';
-		return 'Destroy!';
+		if($id == 1) {
+			return redirect()->route('admin.user.index')
+							 ->withErrors(array('Ошибка! Администратора системы удалить нельзя!'));
+		}
 	}
 
 }
