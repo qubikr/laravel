@@ -29,13 +29,14 @@ class UserController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
 		// 
 		
 		$data = $this->users->all();
 
-		return view('admin.user.list')->withData($data);
+		return view('admin.user.list')->withData($data)
+									  ->withMessages($request->session()->get('messages'));
 	}
 
 	/**
@@ -46,6 +47,7 @@ class UserController extends Controller {
 	public function create()
 	{
 		//
+		return view('admin.user.form');
 	}
 
 	/**
@@ -53,9 +55,35 @@ class UserController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
 		//
+		$this->validate(
+			$request,
+			[
+				'email' => 'required|email|unique:users',
+				'password' => 'required|min:6',
+				'password_confirm' => 'required|same:password',
+			], 
+			[
+				'email.required' => 'Поле email не заполнено',
+				'email.email' => 'Введите верный email',
+				'email.unique' => 'Такой email уже существует!',
+				'password.required' => 'Задайте пароль',
+				'password.min' => 'Пароль должен быть длиной не менее 6 символов',
+				'password_confirm.required' => 'Введите подтверждение пароля',
+				'password_confirm.same' => 'Подтверждение пароля введено не верно',
+			]
+		);
+
+		$input = $request->all();
+		
+		$user = $this->users->create($input);
+		$user->password = bcrypt($input['password']);
+		$user->save();
+
+		return redirect()->route('admin.user.index')
+					     ->with('messages', array('Пользователь успешно создан'));
 	}
 
 	/**
@@ -67,8 +95,9 @@ class UserController extends Controller {
 	public function show($id)
 	{
 		//
+		$data = $this->users->find($id);
 
-
+		return view('admin.user.form')->withUser($data);
 	}
 
 	/**
@@ -80,7 +109,9 @@ class UserController extends Controller {
 	public function edit($id)
 	{
 		//
+		$data = $this->users->find($id);
 
+		return view('admin.user.form')->withUser($data);
 	}
 
 	/**
@@ -89,9 +120,44 @@ class UserController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
 		//
+		
+		$this->validate(
+			$request,
+			[
+				'email' => 'email|unique:users,email,' . $id,
+				'password' => 'min:6',
+				'password_confirm' => 'same:password',
+			], 
+			[
+				'email.email' => 'Введите верный email',
+				'email.unique' => 'Такой email уже существует!',
+				'password.min' => 'Пароль должен быть длиной не менее 6 символов',
+				'password_confirm.same' => 'Подтверждение пароля введено не верно',
+			]
+		);
+
+		$input = $request->all();
+		unset($input['_method'], $input['_token'], $input['password_confirm']);
+
+		$user = $this->users->find($id);
+
+		foreach ($input as $key=>$value) {
+			if ($key == 'password') {
+				if ($value !== '') {
+					$user['password'] = bcrypt($value);
+				}
+			} else {
+				$user[$key] = $value;	
+			}				
+		}
+
+		$user->save();
+		
+		return redirect()->route('admin.user.index')
+						 ->with('messages', array('Данные пользователя успешно обновлены'));
 	}
 
 	/**
@@ -103,10 +169,13 @@ class UserController extends Controller {
 	public function destroy($id)
 	{
 		//
-		if($id == 1) {
+		if ($id == 1) {
 			return redirect()->route('admin.user.index')
 							 ->withErrors(array('Ошибка! Администратора системы удалить нельзя!'));
 		}
+
+		$this->users->destroy($id);
+		return redirect()->route('admin.user.index');
 	}
 
 }

@@ -26,4 +26,11 @@ class User extends Model implements AuthenticatableContract{
 	 */
 	protected $guarded = ['id', 'password'];
 
+	/**
+	 * The attributes excluded from the model's JSON form.
+	 * @var array
+	 */
+
+ 	protected $hidden = ['password'];
+
 }
