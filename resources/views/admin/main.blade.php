@@ -38,14 +38,14 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Dashboard</a></li>
+            <li><a href="{{route('admin.index')}}">Рабочий стол</a></li>
             <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Settings</a></li>
             <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Profile</a></li>
             <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Help</a></li>
           </ul>
-          <form class="navbar-form navbar-right">
+<!--          <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
-          </form>
+          </form>-->
         </div>
       </div>
     </div>

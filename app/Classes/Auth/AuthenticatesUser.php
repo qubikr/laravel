@@ -56,5 +56,12 @@ trait AuthenticatesUser {
 						 ->withInput($credentials)
 						 ->withErrors( ['email' => 'Неверный email или пароль']);
 	}
+
+	public function anyLogout()
+	{
+		$this->auth->logout();
+
+		return redirect()->route('admin.index');
+	}
 }
 
