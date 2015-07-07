@@ -42,7 +42,8 @@ Route::group(
 			'auth', 'AuthController', 
 			array(
 				'getLogin'  => 'admin.loginForm',
-				'postLogin' => 'admin.login'
+				'postLogin' => 'admin.login',
+				'anyLogout' => 'admin.logout',
 			)
 		);
 
