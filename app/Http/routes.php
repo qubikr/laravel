@@ -51,6 +51,10 @@ Route::group(
 			'user', 'User\UserController'
 		);
 
+		Route::resource(
+			'region', 'RegionController'
+		);
+
 		Route::get(
 			'/',
 			array(
