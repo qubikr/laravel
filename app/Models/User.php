@@ -8,7 +8,7 @@ class User extends Model implements AuthenticatableContract{
 
 	use Authenticatable;
 	/**
-	 * Db name
+	 * Db table name
 	 * @var string
 	 */
 	protected $table = 'users';
