@@ -166,7 +166,6 @@ class Region extends Model
 
 		foreach ($template as $field => $value) {
 			$element[$field] = $value;
-
 			$element[$field]['value'] = $data[$field];
 
 		}

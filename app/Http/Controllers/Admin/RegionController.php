@@ -45,11 +45,11 @@ class RegionController extends Controller {
 	/**
 	 * Show the form for creating a new resource.
 	 */
-	public function create(Request $request)
+	public function create()
 	{
 		//
 		
-		return view('admin.element.form')->withTemplate($this->region->getTemplate());
+		return view('admin.element.form')->withElement($this->region->getTemplate());
 	}
 
 	/**
@@ -84,7 +84,6 @@ class RegionController extends Controller {
 		//
 		
 		$region = $this->region->getElement($id);
-
 		return view('admin.element.form')->withElement($region);
 
 
@@ -99,6 +98,8 @@ class RegionController extends Controller {
 	public function edit($id)
 	{
 		//
+        $region = $this->region->getElement($id);
+        return view('admin.element.form')->withElement($region);
 	}
 
 	/**
