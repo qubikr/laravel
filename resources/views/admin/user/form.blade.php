@@ -8,7 +8,7 @@
 	  method="POST" class="form-horizontal" role="form">
 
 		@if (isset($user))
-			c
+			<input type="hidden" name="_method" value="PUT">
 		@endif
 		
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">

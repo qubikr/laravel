@@ -5,26 +5,17 @@
 	<a href="{{route($page_data['base_route'] . '.index')}}" class="btn btn-primary"><i class="glyphicon glyphicon-chevron-left"></i> назад</a>
 	<hr>
 
-	@if(isset($element))
-		<pre>
-			{{print_r($element)}}
-		</pre>
-	@endif
-
-
-    <pre>
-        {{print_r($page_data)}}
-    </pre>
-
-
-	<form action="{{route('admin.region.store')}}" method="POST" class="form-horizontal" role="form">
+	<form action="{{$page_data['action'] === 'create' ? route($page_data['base_route'].'.store') : route($page_data['base_route'].'.update')}}" method="POST" class="form-horizontal" role="form">
 		
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
-
 
         @if($page_data['action'] !== 'create')
             <input type="hidden" name="_method" value="PUT">
         @endif
+
+        <pre>
+        	{{print_r($page_data)}}
+        </pre>
 
 		@if(isset($element))
 			@foreach ($element as $key=>$value)
