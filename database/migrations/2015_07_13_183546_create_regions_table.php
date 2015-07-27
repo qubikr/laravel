@@ -17,13 +17,13 @@ class CreateRegionsTable extends Migration {
 		{
 			$table->create();
 			$table->increments('id');
-			$table->string('seo_title');
-			$table->string('seo_description');
-			$table->string('seo_keywords');
+			$table->string('seo_title')->nullable();
+			$table->string('seo_description')->nullable();
+			$table->string('seo_keywords')->nullable();
 			$table->string('name');
 			$table->string('url');
-			$table->string('description');
-			$table->text('html');
+			$table->string('description')->nullable();
+			$table->text('html')->nullable();
 			$table->timestamps();
 		});
 	}
