@@ -5,7 +5,10 @@
 	<a href="{{route($page_data['base_route'] . '.index')}}" class="btn btn-primary"><i class="glyphicon glyphicon-chevron-left"></i> назад</a>
 	<hr>
 
-	<form action="{{$page_data['action'] === 'create' ? route($page_data['base_route'].'.store') : route($page_data['base_route'].'.update')}}" method="POST" class="form-horizontal" role="form">
+	<form action="{{
+		$page_data['action'] === 'create' ? route($page_data['base_route'].'.store') : route($page_data['base_route'].'.update', $element_id)
+
+		}}" method="POST" class="form-horizontal" role="form">
 		
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 

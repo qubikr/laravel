@@ -61,7 +61,6 @@ class RegionController extends Controller {
 	public function store(Request $request)
 	{
 		//
-
 		$this->validate(
 			$request, 
 			$this->region->getValidationRules()
@@ -71,7 +70,6 @@ class RegionController extends Controller {
 
 		return redirect()->route('admin.region.index')
 						 ->with('messages', array('Рездел успешно добавлен'));
-		
 	}
 
 	/**
@@ -86,7 +84,8 @@ class RegionController extends Controller {
 		
 		$region = $this->region->getElement($id);
 
-		return view('admin.element.form')->withElement($region);
+		return view('admin.element.form')->withElement($region)
+										 ->withElementId($id);
 
 
 	}
@@ -102,7 +101,8 @@ class RegionController extends Controller {
 		//
 
         $region = $this->region->getElement($id);
-        return view('admin.element.form')->withElement($region);
+        return view('admin.element.form')->withElement($region)
+        								 ->withElementId($id);
 
 	}
 
@@ -112,9 +112,10 @@ class RegionController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request, $id)
 	{
 		//
+		return 'update '.$id;
 	}
 
 	/**
@@ -126,6 +127,7 @@ class RegionController extends Controller {
 	public function destroy($id)
 	{
 		//
+		return 'destroy '.$id;
 	}
 
 }
