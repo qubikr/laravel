@@ -11,7 +11,7 @@ class RegionController extends Controller {
 
 
 	/**
-	 * Region model intance
+	 * Region model instance
 	 * @var [type]
 	 */
 	protected $region;
@@ -86,8 +86,6 @@ class RegionController extends Controller {
 
 		return view('admin.element.form')->withElement($region)
 										 ->withElementId($id);
-
-
 	}
 
 	/**
@@ -103,7 +101,6 @@ class RegionController extends Controller {
         $region = $this->region->getElement($id);
         return view('admin.element.form')->withElement($region)
         								 ->withElementId($id);
-
 	}
 
 	/**
@@ -115,7 +112,22 @@ class RegionController extends Controller {
 	public function update(Request $request, $id)
 	{
 		//
-		return 'update '.$id;
+
+		$this->validate($request, $this->region->getValidationRules());
+
+		$input = $request->all();
+		unset($input['_method'], $input['_token']);
+
+		$region = $this->region->find($id);
+
+		foreach ($input as $key => $value) {
+			$region[$key] = $value;
+		}
+
+		$region->save();
+
+		return redirect()->route('admin.region.index')
+						->with('messages', array('Раздел успешно обновлен'));
 	}
 
 	/**

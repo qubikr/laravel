@@ -32,7 +32,6 @@ class UserController extends Controller {
 	public function index(Request $request)
 	{
 		// 
-		
 		$data = $this->users->all();
 
 		return view('admin.user.list')->withData($data)
@@ -177,5 +176,4 @@ class UserController extends Controller {
 		$this->users->destroy($id);
 		return redirect()->route('admin.user.index');
 	}
-
 }

@@ -16,20 +16,12 @@
             <input type="hidden" name="_method" value="PUT">
         @endif
 
-        <pre>
-        	{{print_r($page_data)}}
-        </pre>
-
 		@if(isset($element))
 			@foreach ($element as $key=>$value)
-
-
 				<div class="form-group">
-					<label class="col-md-3 control-label" for="$key">{{$value['title']}}</label>
-
+					<label class="col-md-3 control-label" for="{{$key}}">{{$value['title']}}</label>
 						@if($value['type'] == 'text')
 							<div class="col-md-3">
-
 								<input type="text" class="form-control" name="{{$key}}" value="{{!is_null(old($key)) ? old($key) : (isset($value['value']) ? $value['value'] : '')}}">
 							</div>
 						@elseif($value['type'] == 'textarea')
@@ -41,8 +33,8 @@
 								<textarea  rows="10" class="form-control" name="{{$key}}">{{!is_null(old($key)) ? old($key) : (isset($value['value']) ? $value['value'] : '')}}</textarea>
 							</div>
 						@endif
+						{!!$errors->first($key, '<br><br><label class="col-md-8 col-md-offset-3" role="alert"><div class="alert alert-danger ">:message</div></label>')!!}
 				</div>
-
 			@endforeach
 		@endif
 	
