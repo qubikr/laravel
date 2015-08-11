@@ -139,7 +139,13 @@ class RegionController extends Controller {
 	public function destroy($id)
 	{
 		//
-		return 'destroy '.$id;
+		
+		$name = $this->region->find($id)->name;
+		$this->region->destroy($id);
+
+		return redirect()->route('admin.region.index')
+						 ->with('messages', array("Раздел <strong>\"$name\"</strong> (id:$id) успешно удален"));
 	}
 
 }
+		

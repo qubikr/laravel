@@ -126,11 +126,12 @@ class UserController extends Controller {
 		$this->validate(
 			$request,
 			[
-				'email' => 'email|unique:users,email,' . $id,
+				'email' => 'required|email|unique:users,email,' . $id,
 				'password' => 'min:6',
 				'password_confirm' => 'same:password',
 			], 
 			[
+				'email.required' => 'Поле email не может быть пустым'
 				'email.email' => 'Введите верный email',
 				'email.unique' => 'Такой email уже существует!',
 				'password.min' => 'Пароль должен быть длиной не менее 6 символов',

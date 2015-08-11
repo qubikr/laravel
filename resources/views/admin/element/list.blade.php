@@ -10,7 +10,7 @@
 	
 	@if (isset($messages))
 		@foreach ($messages as $message)
-			<div class="alert alert-success" role="alert">{{$message}}</div>
+			<div class="alert alert-success" role="alert">{!!$message!!}</div>
 		@endforeach
 	@endif
 

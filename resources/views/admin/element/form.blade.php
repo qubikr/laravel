@@ -43,7 +43,6 @@
 				<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> Сохранить</button>
 			</div>
 		</div>
-
 	</form>
 	
 @endsection;
