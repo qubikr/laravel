@@ -35,61 +35,77 @@ class Region extends Model
 	 * @var array
 	 */
 	protected $field_labels = array (
-		'id' => array (
-			'title' => 'id',
-			'list' 	=> true,
-			'edit'  => false,
-			'type'  => 'text',
-			'rules' => '',
+		array (
+			'title' => 'Основные свойства',
+			'code' => 'base',
+			'sort' => 1,
+			'selected' => true,
+			'fields' => array(
+				'id' => array (
+					'title' => 'id',
+					'list' 	=> true,
+					'edit'  => false,
+					'type'  => 'text',
+					'rules' => '',
+				),
+				'name' => array (
+					'title' => 'Название раздела',
+					'list'  => true,
+					'edit'  => true,
+					'type'  => 'text',
+					'rules' => 'required',
+				),
+				'url' => array (
+					'title' => 'ЧПУ ссылка',
+					'list'  => true,
+					'edit'  => true,
+					'type'  => 'text',
+					'rules' => 'required|alpha_dash',
+				),
+				'description' => array (
+					'title' => 'Описание',
+					'list'  => true,
+					'edit'  => true,
+					'type'  => 'textarea-big',
+					'rules' => '',
+				),
+				'html' => array (
+					'title' => 'Страница раздела',	
+					'list'  => false,
+					'edit'  => true,
+					'type'  => 'textarea-big',			
+					'rules' => '',
+				),
+			),	
 		),
-		'seo_title'	=> array (
-			'title' => 'Тег title',
-			'list'  => false,
-			'edit'  => true,
-			'type'  => 'text',
-			'rules' => '',
-		),
-		'seo_description'	=> array (
-			'title' => 'Тег description',
-			'list'  => false,
-			'edit'  => true,
-			'type'  => 'textarea',
-			'rules' => '',
-		),
-		'seo_keywords' 		=> array (
-			'title' => 'Тег keywords',
-			'list'  => false,
-			'edit'  => true,
-			'type'  => 'textarea',
-			'rules' => '',
-		),
-		'name' 				=> array (
-			'title' => 'Название раздела',
-			'list'  => true,
-			'edit'  => true,
-			'type'  => 'text',
-			'rules' => 'required',
-		),
-		'url' 				=> array (
-			'title' => 'ЧПУ ссылка',
-			'list'  => true,
-			'edit'  => true,
-			'type'  => 'text',
-			'rules' => 'required|alpha_dash',
-		),
-		'description' 		=> array (
-			'title' => 'Описание',
-			'list'  => true,
-			'edit'  => true,
-			'type'  => 'textarea-big',
-			'rules' => '',
-		),
-		'html' 				=> array (
-			'title' => 'Страница раздела',	
-			'list'  => false,
-			'edit'  => true,
-			'type'  => 'textarea-big',			
-			'rules' => '',
+		array (
+			'title' => 'Seo',
+			'code' => 'seo',
+			'sort' => 2,
+			'selected' => false,
+			'fields' => array(
+				'seo_title'	=> array (
+					'title' => 'Тег title',
+					'list'  => false,
+					'edit'  => true,
+					'type'  => 'text',
+					'rules' => '',
+				),
+				'seo_description'	=> array (
+					'title' => 'Тег description',
+					'list'  => false,
+					'edit'  => true,
+					'type'  => 'textarea',
+					'rules' => '',
+				),
+				'seo_keywords' 		=> array (
+					'title' => 'Тег keywords',
+					'list'  => false,
+					'edit'  => true,
+					'type'  => 'textarea',
+					'rules' => '',
+				),
+			),
 		),
 	);
 
@@ -105,9 +121,11 @@ class Region extends Model
 		$data = array();
 		$header = array();
 
-		foreach ($this->field_labels as $field => $options) {
-			if ($options['list']) {
-				$header[] = array('index' => $field, 'title' => $options['title'], 'type' => $options['type']);
+		foreach ($this->field_labels as $group) {
+			foreach ($group['fields'] as $field => $options) {
+				if ($options['list']) {
+					$header[] = array('index' => $field, 'title' => $options['title'], 'type' => $options['type']);
+				}
 			}
 		}
 
@@ -132,9 +150,16 @@ class Region extends Model
 	{
 		$template = [];
 
-		foreach ($this->field_labels as $field => $options) {
-			if ($options['edit']) {
-				$template[$field] = $options;
+		foreach ($this->field_labels as $group) {
+			$template[$group['code']] = array(
+					'title' => $group['title'],
+					'selected' => $group['selected'],
+					'fields' => array(),
+				);
+			foreach ($group['fields'] as $field => $options) {
+				if ($options['edit']) {
+					$template[$group['code']]['fields'][$field] = $options;
+				}
 			}
 		}
 
@@ -149,9 +174,11 @@ class Region extends Model
 	{
 		$rules = [];
 
-		foreach ($this->field_labels as $field => $options) {
-			if($options['rules'] !== '') {
-				$rules[$field] = $options['rules'];
+		foreach ($this->field_labels as $group) {
+			foreach ($group['fields'] as $field => $options) {
+				if($options['rules'] !== '') {
+					$rules[$field] = $options['rules'];
+				}
 			}
 		}
 
@@ -164,9 +191,16 @@ class Region extends Model
 		$data = $this->find($id);
 		$element = [];
 
-		foreach ($template as $field => $value) {
-			$element[$field] = $value;
-			$element[$field]['value'] = $data[$field];
+		foreach ($template as $code => $group) {			
+			$element[$code] = array(
+					'title' => $group['title'],
+					'selected' => $group['selected'],
+					'fields' => array(),
+				);
+			foreach ($group['fields'] as $field => $value) {
+				$element[$code]['fields'][$field] = $value;
+				$element[$code]['fields'][$field]['value'] = $data[$field];
+			}
 		}
 
 		return $element;

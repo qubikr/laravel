@@ -4,14 +4,14 @@
 
 	@if (count($errors) > 0)
 		@foreach ($errors->all() as $error)
-			<div class="alert alert-danger" role="alert">{{$error}}</div>
+			<div class="alert alert-danger" role="alert">{!!$error!!}</div>
 		@endforeach
 	@endif
 	
 	
 	@if (isset($messages))
 		@foreach ($messages as $message)
-			<div class="alert alert-success" role"alert">{{$message}}</div>
+			<div class="alert alert-success" role"alert">{!!$message!!}</div>
 		@endforeach
 	@endif
 	<table class="table table-striped">

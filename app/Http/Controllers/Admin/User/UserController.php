@@ -131,7 +131,7 @@ class UserController extends Controller {
 				'password_confirm' => 'same:password',
 			], 
 			[
-				'email.required' => 'Поле email не может быть пустым'
+				'email.required' => 'Поле email не может быть пустым',
 				'email.email' => 'Введите верный email',
 				'email.unique' => 'Такой email уже существует!',
 				'password.min' => 'Пароль должен быть длиной не менее 6 символов',
@@ -173,8 +173,10 @@ class UserController extends Controller {
 			return redirect()->route('admin.user.index')
 							 ->withErrors(array('Ошибка! Администратора системы удалить нельзя!'));
 		}
+		$user = $this->users->find($id);
 
 		$this->users->destroy($id);
-		return redirect()->route('admin.user.index');
+		return redirect()->route('admin.user.index')
+						 ->with('messages', array('Пользователь "<strong>' . (isset($user['name']) ? $user['name'] : 'USERNAME') . '</strong>" (id='.$id.') успешно удален'));
 	}
 }
