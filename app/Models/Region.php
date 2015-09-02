@@ -26,6 +26,7 @@ class Region extends Model
 		'seo_keywords',
 		'name',
 		'url',
+		'gender',
 		'description',
 		'html',
 	);
@@ -61,6 +62,13 @@ class Region extends Model
 					'edit'  => true,
 					'type'  => 'text',
 					'rules' => 'required|alpha_dash',
+				),
+				'gender' => array (
+					'title' => 'Половозрастная привязка',
+					'list'  => true,
+					'edit'  => true,
+					'type'  => 'gender',
+					'rules' => 'required'
 				),
 				'description' => array (
 					'title' => 'Описание',
@@ -116,7 +124,6 @@ class Region extends Model
 	 */
 	public function getList()
 	{
-		$raw = $this->all();
 
 		$data = array();
 		$header = array();

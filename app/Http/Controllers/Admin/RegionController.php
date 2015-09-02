@@ -61,6 +61,8 @@ class RegionController extends Controller {
 	public function store(Request $request)
 	{
 		//
+		$request = $this->updateRequest($request);
+
 		$this->validate(
 			$request, 
 			$this->region->getValidationRules()
@@ -113,6 +115,8 @@ class RegionController extends Controller {
 	{
 		//
 
+		$request = $this->updateRequest($request);
+
 		$this->validate($request, $this->region->getValidationRules());
 
 		$input = $request->all();
@@ -145,6 +149,33 @@ class RegionController extends Controller {
 
 		return redirect()->route('admin.region.index')
 						 ->with('messages', array("Раздел <strong>\"$name\"</strong> (id:$id) успешно удален"));
+	}
+	
+	/**
+	 * Proccess the request variables of multyply type
+	 * @param  Request $request - initial request
+	 * @return Request - updated request
+	 */
+	private function updateRequest($request)
+	{
+		$vars = $request->all();
+
+		if (isset($vars['form_multiply_type'])) {
+			foreach ($vars['form_multiply_type'] as $type) {
+				if (isset($vars[$type])) {
+					$field_value = 0;
+					foreach ($vars[$type] as $value) {
+						$field_value += $value;
+					}
+					$vars[$type] = $field_value;
+				}
+			}
+			unset($vars['form_multiply_type']);
+		}
+
+		$request->replace($vars);
+
+		return $request;
 	}
 
 }

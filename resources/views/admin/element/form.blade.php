@@ -40,7 +40,11 @@
 								</div>
 							@elseif($value['type'] == 'textarea-big')
 								<div class="col-md-8">
-									<textarea  rows="10" class="form-control" name="{{$key}}">{{!is_null(old($key)) ? old($key) : (isset($value['value']) ? $value['value'] : '')}}</textarea>
+									<textarea rows="10" class="form-control" name="{{$key}}">{{!is_null(old($key)) ? old($key) : (isset($value['value']) ? $value['value'] : '')}}</textarea>
+								</div>
+							@elseif($value['type'] == 'gender')
+								<div class="col-md-8">
+									@include('admin.element.gender', ['value' => !is_null(old($key)) ? old($key) : (isset($value['value']) ? $value['value'] : 63)])
 								</div>
 							@endif
 							{!!$errors->first($key, '<br><br><label class="col-md-8 col-md-offset-3" role="alert"><div class="alert alert-danger ">:message</div></label>')!!}

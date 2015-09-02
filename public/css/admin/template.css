@@ -154,3 +154,7 @@ body {
     margin-top: 5px;
   }
 }
+
+label {
+  cursor: pointer;
+}
