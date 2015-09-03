@@ -23,6 +23,7 @@ class RegionController extends Controller {
 	public function __construct(Region $regionModel)
 	{
 		$this->region = $regionModel;
+
 	}
 
 
@@ -31,14 +32,20 @@ class RegionController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(Request $request)
+	public function index(Request $request, $page = 1)
 	{
 		//		
-				
+
 		$baseRoute = $request->route()->getName();
 		$baseRoute = substr($baseRoute, 0, strripos($baseRoute, '.'));
 
-		return view('admin.element.list')->withList($this->region->getList())
+		$list = $this->region->getList($page);
+
+		if ($list['pagination']['currentPage'] > $list['pagination']['count']) {
+			return redirect(route('admin.region.index') . '/page/' . $list['pagination']['count']);
+		}
+
+		return view('admin.element.list')->withList($list)
 										 ->withMessages($request->session()->get('messages'));
 	}
 
@@ -83,7 +90,7 @@ class RegionController extends Controller {
 	public function show($id)
 	{
 		//
-		
+
 		$region = $this->region->getElement($id);
 
 		return view('admin.element.form')->withElement($region)

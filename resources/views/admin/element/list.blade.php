@@ -13,7 +13,7 @@
 			<div class="alert alert-success" role="alert">{!!$message!!}</div>
 		@endforeach
 	@endif
-
+	@include('admin.element.pagination', ['data' => $list['pagination']])
 	@if (isset($list))
 		<table class="table table-striped">
 			@if (isset($list['header']))
@@ -48,8 +48,6 @@
 			@endif
 		</table>
 	@endif
-	
+	@include('admin.element.pagination', ['data' => $list['pagination']])
 	<a href="{{route($page_data['base_route'] . '.create')}}" class="btn btn-success pull-right"><i class="glyphicon glyphicon-plus"></i>Добавить элемент</a>
-
-
 @endsection

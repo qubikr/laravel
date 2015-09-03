@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\Paginator;
 
 class Region extends Model
 {
@@ -30,6 +31,12 @@ class Region extends Model
 		'description',
 		'html',
 	);
+
+
+	/**
+	 * number of elements on single page
+	 */
+	protected $pageLength = 20;
 
 	/**
 	 * fileds labels
@@ -65,7 +72,7 @@ class Region extends Model
 				),
 				'gender' => array (
 					'title' => 'Половозрастная привязка',
-					'list'  => true,
+					'list'  => false,
 					'edit'  => true,
 					'type'  => 'gender',
 					'rules' => 'required'
@@ -122,11 +129,24 @@ class Region extends Model
 	 * generate elements list width header
 	 * @return array()
 	 */
-	public function getList()
+	public function getList($page)
 	{
 
 		$data = array();
 		$header = array();
+
+		Paginator::currentPageResolver(function() use ($page) {
+			return $page;
+		});
+
+		$raw = $this->paginate($this->pageLength);
+
+		$paginator = array(
+			'currentPage' => $page,
+			'count'	  => $raw->lastPage(),
+		);
+
+		$raw->all();
 
 		foreach ($this->field_labels as $group) {
 			foreach ($group['fields'] as $field => $options) {
@@ -146,7 +166,8 @@ class Region extends Model
 			$data[] = $elem;
 		}
 
-		return array('header' => $header, 'data' => $data);
+
+		return array('header' => $header, 'data' => $data, 'pagination' => $paginator);
 	}
 
 	/**

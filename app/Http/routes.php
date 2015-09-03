@@ -51,6 +51,16 @@ Route::group(
 			'user', 'User\UserController'
 		);
 
+		Route::get('region/page/', function(){
+			return redirect()->route('admin.region.index');
+		});
+
+		Route::get('region/page/{page}', 
+			array(
+				'as'   => 'admin.region.index',
+				'uses' => 'RegionController@index',
+			)
+		);
 		Route::resource(
 			'region', 'RegionController'
 		);
