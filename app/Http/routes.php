@@ -52,10 +52,10 @@ Route::group(
 		);
 
 		Route::get('region/page/', function(){
-			return redirect()->route('admin.region.index');
+			return redirect(route('admin.region.index') . '/page/1');
 		});
 
-		Route::get('region/page/{page}', 
+		Route::get('region/page/{page?}', 
 			array(
 				'as'   => 'admin.region.index',
 				'uses' => 'RegionController@index',
@@ -64,6 +64,21 @@ Route::group(
 		Route::resource(
 			'region', 'RegionController'
 		);
+
+		Route::get('symptom/page/', function(){
+			return redirect(route('admin.symptom.index') . '/page/1');
+		});
+
+		Route::get('symptom/page/{page}',
+			array(
+				'as'    => 'admin.symptom.index',
+				'uses'  => 'SymptomController@index',
+			)
+		);
+
+		Route::resource(
+			'symptom', 'SymptomController'
+		);	
 
 		Route::get(
 			'/',

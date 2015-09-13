@@ -32,7 +32,6 @@ class Region extends Model
 		'html',
 	);
 
-
 	/**
 	 * number of elements on single page
 	 */
@@ -124,7 +123,6 @@ class Region extends Model
 		),
 	);
 
-
 	/**
 	 * generate elements list width header
 	 * @return array()
@@ -213,6 +211,11 @@ class Region extends Model
 		return $rules;
 	}
 
+	/**
+	 * return single element
+	 * @param  [type] $id [description]
+	 * @return [type]     [description]
+	 */
 	public function getElement($id)
 	{
 		$template = $this->getTemplate();

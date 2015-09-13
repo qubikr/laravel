@@ -44,6 +44,11 @@ class AdminSidebarMenuComposer
  				'link'   => 'Cистемы организма',
  				'active' => strrpos($this->request->route()->getName(), 'admin.region') !== false,
  			),
+ 			array(
+ 				'href'	 => route('admin.symptom.index'),
+ 				'link'   => 'Симтомы',
+ 				'active' => strrpos($this->request->route()->getName(), 'admin.symptom') !== false,
+ 			),
  		);
  	}
 }
